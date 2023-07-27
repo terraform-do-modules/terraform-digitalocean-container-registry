@@ -4,20 +4,25 @@
 
 
 <h1 align="center">
-    Terraform Module Template
+    Terraform Digitalocean Container Registry
+
+
 </h1>
 
 <p align="center" style="font-size: 1.2rem;"> 
-    Terraform module template to create new modules using this as baseline
+    Terraform module to create Digitalocean container registry service resource on Digitalocean.
      </p>
 
 <p align="center">
 
-<a href="https://github.com/clouddrove/terraform-module-template/releases/latest">
-  <img src="https://img.shields.io/github/release/clouddrove/terraform-module-template.svg" alt="Latest Release">
+<a href="https://github.com/terraform-do-modules/terraform-digitalocean-container-registry/releases/latest">
+  <img src="https://img.shields.io/github/release/terraform-do-modules/terraform-digitalocean-container-registry.svg" alt="Latest Release">
 </a>
-<a href="">
-  <img src="https://github.com/clouddrove/terraform-module-template/actions/workflows/tfsec.yml/badge.svg" alt="tfsec">
+<a href="https://github.com/terraform-do-modules/terraform-digitalocean-container-registry/actions/workflows/tfsec.yml">
+  <img src="https://github.com/terraform-do-modules/terraform-digitalocean-container-registry/actions/workflows/tfsec.yml/badge.svg" alt="tfsec">
+</a>
+<a href="https://www.terraform.io">
+  <img src="https://img.shields.io/badge/Terraform-v1.4.6-green" alt="Terraform">
 </a>
 <a href="LICENSE.md">
   <img src="https://img.shields.io/badge/License-APACHE-blue.svg" alt="Licence">
@@ -27,13 +32,13 @@
 </p>
 <p align="center">
 
-<a href='https://facebook.com/sharer/sharer.php?u=https://github.com/clouddrove/terraform-module-template'>
+<a href='https://facebook.com/sharer/sharer.php?u=https://github.com/terraform-do-modules/terraform-digitalocean-container-registry'>
   <img title="Share on Facebook" src="https://user-images.githubusercontent.com/50652676/62817743-4f64cb80-bb59-11e9-90c7-b057252ded50.png" />
 </a>
-<a href='https://www.linkedin.com/shareArticle?mini=true&title=Terraform+Module+Template&url=https://github.com/clouddrove/terraform-module-template'>
+<a href='https://www.linkedin.com/shareArticle?mini=true&title=Terraform+Digitalocean+Container+Registry&url=https://github.com/terraform-do-modules/terraform-digitalocean-container-registry'>
   <img title="Share on LinkedIn" src="https://user-images.githubusercontent.com/50652676/62817742-4e339e80-bb59-11e9-87b9-a1f68cae1049.png" />
 </a>
-<a href='https://twitter.com/intent/tweet/?text=Terraform+Module+Template&url=https://github.com/clouddrove/terraform-module-template'>
+<a href='https://twitter.com/intent/tweet/?text=Terraform+Digitalocean+Container+Registry&url=https://github.com/terraform-do-modules/terraform-digitalocean-container-registry'>
   <img title="Share on Twitter" src="https://user-images.githubusercontent.com/50652676/62817740-4c69db00-bb59-11e9-8a79-3580fbbf6d5c.png" />
 </a>
 
@@ -53,11 +58,7 @@ We have [*fifty plus terraform modules*][terraform_modules]. A few of them are c
 ## Prerequisites
 
 This module has a few dependencies: 
-
-- [Terraform 1.x.x](https://learn.hashicorp.com/terraform/getting-started/install.html)
-- [Go](https://golang.org/doc/install)
-- [github.com/stretchr/testify/assert](https://github.com/stretchr/testify)
-- [github.com/gruntwork-io/terratest/modules/terraform](https://github.com/gruntwork-io/terratest)
+- [Terraform 1.4.6](https://learn.hashicorp.com/terraform/getting-started/install.html)
 
 
 
@@ -68,12 +69,21 @@ This module has a few dependencies:
 ## Examples
 
 
-**IMPORTANT:** Since the `master` branch used in `source` varies based on new modifications, we suggest that you use the release versions [here](https://github.com/clouddrove/terraform-module-template/releases).
+**IMPORTANT:** Since the `master` branch used in `source` varies based on new modifications, we suggest that you use the release versions [here](https://github.com/terraform-do-modules/terraform-digitalocean-container-registry/releases).
 
 
-Here are some examples of how you can use this module in your inventory structure:
+### Simple Example
+Here is an example of how you can use this module in your inventory structure:
 ```hcl
-  ```
+    module "container-registry" {
+      source                 = "terraform-do-modules/container-registry/digitalocean"
+      version                = "1.0.0"
+      name                   = local.name
+      environment            = local.environment
+      region                 = local.region
+      subscription_tier_slug = "starter"
+    }
+```
 
 
 
@@ -82,11 +92,33 @@ Here are some examples of how you can use this module in your inventory structur
 
 ## Inputs
 
-No input.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources. | `bool` | `true` | no |
+| environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
+| expiry\_seconds | The amount of time to pass before the Docker credentials expire in seconds. Defaults to 1576800000, or roughly 50 years. Must be greater than 0 and less than 1576800000. | `number` | `1576800000` | no |
+| label\_order | Label order, e.g. `name`,`application`. | `list(any)` | <pre>[<br>  "name",<br>  "environment"<br>]</pre> | no |
+| managedby | ManagedBy, eg 'terraform-do-modules' or 'hello@clouddrove.com' | `string` | `"terraform-do-modules"` | no |
+| name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
+| region | The region to create VPC, like `london-1` , `bangalore-1` ,`newyork-3` `toronto-1`. | `string` | `"syd1"` | no |
+| subscription\_tier\_slug | The slug identifier for the subscription tier to use (starter, basic, or professional). | `string` | `"starter"` | no |
+| write | Allow for write access to the container registry. Defaults to false. | `bool` | `false` | no |
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| created\_at | The date and time when the registry was created. |
+| credential\_expiration\_time | The date and time the registry access token will expire. |
+| docker\_credentials | Credentials for the container registry. |
+| endpoint | The URL endpoint of the container registry. |
+| expiry\_seconds | Number of seconds after creation for token to expire. |
+| id | The id of the container registry. |
+| name | The name of the container registry. |
+| region | The slug identifier for the region. |
+| server\_url | The domain of the container registry. |
+| storage\_usage\_bytes | The amount of storage used in the registry in bytes. |
+| subscription\_tier\_slug | The slug identifier for the subscription tier. |
 
 
 
@@ -102,9 +134,9 @@ You need to run the following command in the testing folder:
 
 
 ## Feedback 
-If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/clouddrove/terraform-module-template/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
+If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/terraform-do-modules/terraform-digitalocean-container-registry/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
 
-If you have found it worth your time, go ahead and give us a ★ on [our GitHub](https://github.com/clouddrove/terraform-module-template)!
+If you have found it worth your time, go ahead and give us a ★ on [our GitHub](https://github.com/terraform-do-modules/terraform-digitalocean-container-registry)!
 
 ## About us
 
