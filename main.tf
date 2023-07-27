@@ -2,7 +2,8 @@
 ## Labels module callled that will be used for naming and tags.
 ##-----------------------------------------------------------------------------
 module "labels" {
-  source      = "git::https://github.com/terraform-do-modules/terraform-digitalocean-labels.git?ref=internal-426m"
+  source      = "terraform-do-modules/labels/digitalocean"
+  version     = "1.0.0"
   name        = var.name
   environment = var.environment
   managedby   = var.managedby
