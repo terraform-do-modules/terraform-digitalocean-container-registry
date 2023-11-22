@@ -36,7 +36,7 @@ output "created_at" {
 output "docker_credentials" {
   value       = join("", digitalocean_container_registry_docker_credentials.main[*].docker_credentials)
   description = " Credentials for the container registry."
-  sensitive = true
+  sensitive   = true
 }
 output "expiry_seconds" {
   value       = join("", digitalocean_container_registry_docker_credentials.main[*].expiry_seconds)
