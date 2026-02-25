@@ -7,6 +7,7 @@ on:
       - synchronize
       - reopened
 
+# pr commit check
 jobs:
   pre-validation:
     if: github.actor != 'dependabot[bot]'
