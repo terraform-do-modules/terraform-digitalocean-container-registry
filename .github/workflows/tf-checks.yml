@@ -16,7 +16,7 @@ jobs:
       provider: digitalocean
       working_directory: './_examples/complete/'
 
-# Separate job for TFlint workflow call
+# Separate job for TFlint workflow call 
   tf-lint:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-lint.yml@2.0.0 # pinned to latest
     secrets:
