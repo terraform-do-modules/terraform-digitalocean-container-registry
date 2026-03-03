@@ -11,7 +11,7 @@ on:
 jobs:
   pr-validation:
     if: github.actor != 'dependabot[bot]'
-    uses: anket-cd/shared-workflows/.github/workflows/pr_checks.yml@master # pinned to latest
+    uses: anket-cd/shared-workflows/.github/workflows/pr_checks.yml@master
     secrets: inherit
     with:
       subjectPattern: '^.+$'
