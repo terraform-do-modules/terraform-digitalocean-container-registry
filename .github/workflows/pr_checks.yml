@@ -11,7 +11,7 @@ on:
 jobs:
   pr-validation:
     if: github.actor != 'dependabot[bot]'
-    uses: clouddrove/github-shared-workflows/.github/workflows/pr_checks.yml@acffa6c5f585a4ba56500779f927db234a56ba9e # pinned to latest
+    uses: clouddrove/github-shared-workflows/.github/workflows/pr-checks.yml@acffa6c5f585a4ba56500779f927db234a56ba9e # pinned to latest
     secrets: inherit
     with:
       subjectPattern: '^.+$'
