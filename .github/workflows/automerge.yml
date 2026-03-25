@@ -7,7 +7,7 @@ permissions:
   pull-requests: write
 jobs:
   auto-merge:
-    uses: clouddrove/github-shared-workflows/.github/workflows/auto_merge.yml@3f5f04aeaf2695df870f7e3fff6647ea685b8323 # pinned to latest
+    uses: clouddrove/github-shared-workflows/.github/workflows/auto_merge.yml@6f2dee689a9d21f44f1cbe66deb8f6777871ab8e # pinned to latest
     with:
       azure_cloud: true
       tfchecks_azure: '["tf-lint / tflint"]'
