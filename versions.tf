@@ -1,10 +1,14 @@
 # Terraform version
 terraform {
-  required_version = ">= 1.5.4"
+  required_version = ">= 1.10.0"
   required_providers {
     digitalocean = {
       source  = "digitalocean/digitalocean"
-      version = ">= 2.79.0"
+      version = ">= 2.85.0"
     }
+  }
+
+  provider_meta "digitalocean" {
+    module_name = "terraform-do-modules/terraform-digitalocean-container-registry"
   }
 }
